@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cockpit_bg">
+
+    <!-- Fullscreen Multi-Touch Pedal Surface (Left = Brake, Right = Gas) -->
+    <com.masterjangkir.touchracer.PedalTouchView
+        android:id="@+id/pedalView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Top HUD Bar -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:background="#B3121418">
+
+        <TextView
+            android:id="@+id/tvAppTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HEEL &amp; THUMB"
+            android:textColor="@color/racing_cyan"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:text="@string/status_disconnected"
+            android:textColor="@color/text_dim"
+            android:textSize="11sp"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/tvPacketRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="@string/packet_rate_zero"
+            android:textColor="@color/racing_yellow"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnCalibrate"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginRight="6dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="@string/calibrate"
+            android:textSize="10sp"
+            android:background="@drawable/bg_btn_racing"
+            android:textColor="@color/text_white" />
+
+        <Button
+            android:id="@+id/btnSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginRight="6dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="@string/settings"
+            android:textSize="10sp"
+            android:background="@drawable/bg_btn_racing"
+            android:textColor="@color/text_white" />
+
+        <Button
+            android:id="@+id/btnConnect"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:text="@string/connect"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_btn_connect"
+            android:textColor="@color/btn_connect_green" />
+    </LinearLayout>
+
+    <!-- Center Console (Steering Wheel, Shifter, Racing Buttons) -->
+    <LinearLayout
+        android:id="@+id/centerCockpit"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_below="@id/topBar"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingBottom="6dp">
+
+        <!-- Aircraft-style Artificial Horizon / Gyroscope Attitude Indicator -->
+        <com.masterjangkir.touchracer.ArtificialHorizonView
+            android:id="@+id/horizonGauge"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_marginTop="2dp" />
+
+        <!-- Shoulder / Paddle Shifter Row (LB / RB) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="6dp">
+
+            <Button
+                android:id="@+id/btnShiftDown"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_weight="1"
+                android:layout_marginRight="6dp"
+                android:text="&#x25C0; SHIFT - (LB)"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/racing_cyan"
+                android:background="@drawable/bg_btn_racing" />
+
+            <Button
+                android:id="@+id/btnShiftUp"
+                android:layout_width="0dp"
+                android:layout_height="42dp"
+                android:layout_weight="1"
+                android:text="SHIFT + (RB) &#x25B6;"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/racing_cyan"
+                android:background="@drawable/bg_btn_racing" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="VOL- = SHIFT DOWN (LB)  |  VOL+ = SHIFT UP (RB)"
+            android:textColor="@color/text_dim"
+            android:textSize="8.5sp" />
+        <!-- Primary Racing Buttons (Handbrake & NOS) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="6dp">
+
+            <Button
+                android:id="@+id/btnHandbrake"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_weight="1"
+                android:layout_marginRight="6dp"
+                android:text="HANDBRAKE"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/brake_red"
+                android:background="@drawable/bg_btn_racing" />
+
+            <Button
+                android:id="@+id/btnBoost"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_weight="1"
+                android:text="NOS / BOOST"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/racing_cyan"
+                android:background="@drawable/bg_btn_racing" />
+        </LinearLayout>
+
+        <!-- Secondary Action Buttons Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="4dp">
+
+            <Button
+                android:id="@+id/btnCamera"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:layout_marginRight="4dp"
+                android:text="@string/camera"
+                android:textSize="9sp"
+                android:background="@drawable/bg_btn_racing"
+                android:textColor="@color/text_white" />
+
+            <Button
+                android:id="@+id/btnReset"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:layout_marginRight="4dp"
+                android:text="@string/reset"
+                android:textSize="9sp"
+                android:background="@drawable/bg_btn_racing"
+                android:textColor="@color/text_white" />
+
+            <Button
+                android:id="@+id/btnPause"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:layout_marginRight="4dp"
+                android:text="@string/pause"
+                android:textSize="9sp"
+                android:background="@drawable/bg_btn_racing"
+                android:textColor="@color/text_white" />
+
+            <Button
+                android:id="@+id/btnHorn"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:text="@string/horn"
+                android:textSize="9sp"
+                android:background="@drawable/bg_btn_racing"
+                android:textColor="@color/text_white" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

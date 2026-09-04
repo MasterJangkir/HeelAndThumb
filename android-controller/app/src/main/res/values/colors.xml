@@ -1,0 +1,24 @@
+<resources>
+    <color name="cockpit_bg">#121418</color>
+    <color name="cockpit_panel">#1A1E24</color>
+    <color name="cockpit_card">#242A33</color>
+    <color name="cockpit_border">#323B47</color>
+
+    <color name="gas_green">#00E676</color>
+    <color name="gas_green_dark">#008040</color>
+    <color name="gas_green_track">#152E20</color>
+
+    <color name="brake_red">#FF1744</color>
+    <color name="brake_red_dark">#990022</color>
+    <color name="brake_red_track">#331518</color>
+
+    <color name="racing_yellow">#FFD700</color>
+    <color name="racing_cyan">#00E5FF</color>
+
+    <color name="text_white">#FFFFFF</color>
+    <color name="text_dim">#8E9AA8</color>
+
+    <color name="btn_action_bg">#252C36</color>
+    <color name="btn_action_pressed">#3D4856</color>
+    <color name="btn_connect_green">#00C853</color>
+</resources>

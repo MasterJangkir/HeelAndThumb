@@ -1,0 +1,16 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="10dp" />
+            <solid android:color="@color/btn_action_pressed" />
+            <stroke android:width="2dp" android:color="@color/racing_cyan" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="10dp" />
+            <solid android:color="@color/btn_action_bg" />
+            <stroke android:width="1.5dp" android:color="@color/cockpit_border" />
+        </shape>
+    </item>
+</selector>

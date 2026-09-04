@@ -1,0 +1,5 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <corners android:radius="14dp" />
+    <solid android:color="@color/cockpit_card" />
+    <stroke android:width="2dp" android:color="@color/racing_yellow" />
+</shape>

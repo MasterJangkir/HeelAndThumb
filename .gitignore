@@ -1,0 +1,15 @@
+# Build artifacts
+build/
+.gradle/
+*.class
+*.flat
+*.dex
+
+# Local IDE & OS files
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+*.tmp
+*.log

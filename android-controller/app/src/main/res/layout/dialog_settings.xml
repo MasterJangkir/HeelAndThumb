@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Connection Settings -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CONNECTION SETTINGS"
+            android:textStyle="bold"
+            android:textColor="#1976D2"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Connection Type:"
+            android:textSize="12sp" />
+
+        <Spinner
+            android:id="@+id/spConnType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PC Server IP (Wi-Fi / USB):"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/etHost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="e.g. 192.168.1.100 or 127.0.0.1"
+            android:inputType="textUri"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Port (Default: 41503):"
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/etPort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="41503"
+            android:inputType="number"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Paired Bluetooth Device:"
+            android:textSize="12sp" />
+
+        <Spinner
+            android:id="@+id/spBluetoothDevice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Steering Settings -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="STEERING SETTINGS"
+            android:textStyle="bold"
+            android:textColor="#1976D2"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Steering Sensitivity (45° - 180°):"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvSensitivityVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="90°"
+                android:textStyle="bold"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/sbSensitivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Steering Deadzone (0% - 15%):"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvDeadzoneVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2%"
+                android:textStyle="bold"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/sbDeadzone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Pedal Settings -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PEDAL SETTINGS"
+            android:textStyle="bold"
+            android:textColor="#1976D2"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <CheckBox
+            android:id="@+id/cbInvertPedals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Invert Pedals Axis (for inverted games)"
+            android:textSize="13sp"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Simultaneous Gas &amp; Brake Mixing Mode:"
+            android:textSize="12sp"
+            android:layout_marginBottom="4dp" />
+
+        <RadioGroup
+            android:id="@+id/rgMixMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <RadioButton
+                android:id="@+id/rbMixAnalogBlend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Analog Blend (Trail-Braking: Gas &amp; Brake blend smoothly)"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:id="@+id/rbMixBrakePriority"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Brake Priority (Throttle cuts proportionally when braking)"
+                android:textSize="12sp" />
+        </RadioGroup>
+
+        <!-- Shifter & Haptics -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SHIFTER &amp; FEEDBACK"
+            android:textStyle="bold"
+            android:textColor="#1976D2"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <CheckBox
+            android:id="@+id/cbVolumeShifter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hardware Volume Buttons as Shifter (Vol+ = Up, Vol- = Down)"
+            android:textSize="13sp"
+            android:layout_marginBottom="6dp" />
+
+        <CheckBox
+            android:id="@+id/cbHaptic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Haptic Vibration Feedback on Shift &amp; Buttons"
+            android:textSize="13sp"
+            android:layout_marginBottom="8dp" />
+
+        <CheckBox
+            android:id="@+id/cbReverseLandscape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Invert Landscape Orientation (Rotate 180°)"
+            android:textSize="13sp"
+            android:layout_marginBottom="8dp" />
+
+    </LinearLayout>
+</ScrollView>

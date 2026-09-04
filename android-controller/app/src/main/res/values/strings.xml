@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">HeelAndThumb</string>
+    <string name="app_full_name">HeelAndThumb - An Android steering wheel</string>
+    <string name="connect">CONNECT</string>
+    <string name="disconnect">DISCONNECT</string>
+    <string name="calibrate">CALIBRATE</string>
+    <string name="settings">SETTINGS</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="packet_rate_zero">0 Hz</string>
+    <string name="handbrake">HANDBRAKE</string>
+    <string name="boost">NOS / BOOST</string>
+    <string name="reset">RST</string>
+    <string name="camera">CAM</string>
+    <string name="pause">ESC</string>
+    <string name="horn">HORN</string>
+</resources>
