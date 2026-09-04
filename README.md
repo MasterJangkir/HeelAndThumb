@@ -64,16 +64,32 @@
 
 ---
 
+## 📥 Prasyarat: Driver vJoy (Virtual Joystick)
+
+Receiver Windows (`HeelAndThumbRx.exe`) membutuhkan driver **vJoy** agar Windows dan game balap dapat mengenali smartphone Anda sebagai perangkat *joystick / racing wheel* virtual:
+
+- **Download Installer Resmi vJoy:** 
+  🔗 [https://github.com/shauleiz/vJoy/releases](https://github.com/shauleiz/vJoy/releases)
+- **Download Versi Terbaru (Latest Release):**
+  🔗 [vJoySetup.exe di GitHub Releases](https://github.com/shauleiz/vJoy/releases/latest)
+- **Source Code & Repositori vJoy:**
+  🔗 [https://github.com/shauleiz/vJoy](https://github.com/shauleiz/vJoy)
+- **Mirror Alternatif (SourceForge):**
+  🔗 [https://sourceforge.net/projects/vjoysoftware/](https://sourceforge.net/projects/vjoysoftware/)
+
+> *Catatan: Setelah menginstal vJoy, pastikan aplikasi `vJoyConf.exe` (Configure vJoy) telah mengaktifkan **Device 1** dengan minimal sumbu X, Y, Z dan 8 tombol.*
+
+---
+
 ## 🎮 Panduan Penggunaan Cepat
 
 ### 1. Persiapan di PC:
-1. Pastikan driver [vJoy](https://github.com/shauleiz/vJoy) sudah terpasang.
-2. Unduh dan ekstrak **`HeelAndThumbRx-v0.1.0-alpha.zip`** dari folder `release/`.
+1. Unduh dan pasang driver [vJoy](https://github.com/shauleiz/vJoy/releases) (jika belum terpasang).
+2. Unduh dan ekstrak **`HeelAndThumbRx-v0.1.0-alpha.zip`** dari folder `release/` atau dari [Halaman Rilis GitHub](https://github.com/MasterJangkir/HeelAndThumb/releases).
 3. Jalankan **`HeelAndThumbRx.exe`**.
 4. Pastikan status berwarna hijau: `vJoy: Device 1 ACQUIRED (Ready!)`.
    *(Jika tertulis BUSY karena Touch Racer lama terbuka, klik tombol **"Take vJoy Control"**)*.
 5. Catat IP yang tertera pada bagian `PC IP:` (contoh: `192.168.1.15`).
-
 ### 2. Persiapan di Android:
 1. Unduh dan pasang **`HeelAndThumb-v0.1.0-alpha.apk`** di smartphone Anda.
 2. Buka aplikasi **HeelAndThumb**.
