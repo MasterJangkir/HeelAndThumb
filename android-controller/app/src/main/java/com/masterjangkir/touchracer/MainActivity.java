@@ -1,8 +1,10 @@
 package com.masterjangkir.touchracer;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -30,6 +32,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.widget.AdapterView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -69,6 +72,74 @@ public class MainActivity extends Activity {
     private volatile int shiftUpBuffer = 0;
     private volatile int shiftDownBuffer = 0;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    private static final int REQUEST_BLUETOOTH_PERMISSIONS = 1001;
+
+    private boolean hasBluetoothPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            return checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED;
+        }
+        return true;
+    }
+
+    private void requestBluetoothPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            List<String> permissions = new ArrayList<>();
+            if (checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.BLUETOOTH_CONNECT);
+            }
+            if (checkSelfPermission(Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.BLUETOOTH_SCAN);
+            }
+            if (!permissions.isEmpty()) {
+                requestPermissions(permissions.toArray(new String[0]), REQUEST_BLUETOOTH_PERMISSIONS);
+            }
+        }
+    }
+
+    private void populateBluetoothDevices(List<String> names, List<String> addresses) {
+        names.clear();
+        addresses.clear();
+        names.add("None / Auto");
+        addresses.add("");
+
+        if (!hasBluetoothPermission()) {
+            names.add("[Perlu Izin Bluetooth - Ketuk di sini]");
+            addresses.add("");
+            return;
+        }
+
+        try {
+            BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+            if (btAdapter != null && btAdapter.isEnabled()) {
+                Set<BluetoothDevice> paired = btAdapter.getBondedDevices();
+                if (paired != null && !paired.isEmpty()) {
+                    for (BluetoothDevice dev : paired) {
+                        String name = "Unknown Device";
+                        try {
+                            String devName = dev.getName();
+                            if (devName != null && !devName.trim().isEmpty()) {
+                                name = devName;
+                            }
+                        } catch (SecurityException ignored) {}
+                        names.add(name + " (" + dev.getAddress() + ")");
+                        addresses.add(dev.getAddress());
+                    }
+                } else {
+                    names.add("[Tidak ada perangkat Bluetooth paired]");
+                    addresses.add("");
+                }
+            } else if (btAdapter != null && !btAdapter.isEnabled()) {
+                names.add("[Bluetooth HP sedang nonaktif]");
+                addresses.add("");
+            }
+        } catch (SecurityException se) {
+            names.add("[Izin Bluetooth Ditolak]");
+            addresses.add("");
+        } catch (Exception e) {
+            names.add("[Gagal memuat perangkat Bluetooth]");
+            addresses.add("");
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +167,10 @@ public class MainActivity extends Activity {
         initPedals();
         initNetwork();
         initRacingButtons();
+
+        if (!hasBluetoothPermission()) {
+            requestBluetoothPermission();
+        }
     }
 
     private void hideSystemUI() {
@@ -135,6 +210,19 @@ public class MainActivity extends Activity {
                 if (networkManager.isConnected()) {
                     networkManager.disconnect();
                 } else {
+                    if (settingsManager.getConnectionType() == NetworkManager.ConnectionType.BLUETOOTH) {
+                        if (!hasBluetoothPermission()) {
+                            Toast.makeText(MainActivity.this, "Perlu izin Bluetooth untuk koneksi ini", Toast.LENGTH_SHORT).show();
+                            requestBluetoothPermission();
+                            return;
+                        }
+                        String btAddr = settingsManager.getBluetoothAddress();
+                        if (btAddr == null || btAddr.trim().isEmpty()) {
+                            Toast.makeText(MainActivity.this, "Pilih perangkat Bluetooth di Settings terlebih dahulu!", Toast.LENGTH_LONG).show();
+                            showSettingsDialog();
+                            return;
+                        }
+                    }
                     networkManager.setConfig(
                             settingsManager.getConnectionType(),
                             settingsManager.getHost(),
@@ -382,26 +470,41 @@ public class MainActivity extends Activity {
         // Bluetooth devices list
         final List<String> btNames = new ArrayList<>();
         final List<String> btAddresses = new ArrayList<>();
-        btNames.add("None / Auto");
-        btAddresses.add("");
+        populateBluetoothDevices(btNames, btAddresses);
 
-        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (btAdapter != null && btAdapter.isEnabled()) {
-            Set<BluetoothDevice> paired = btAdapter.getBondedDevices();
-            if (paired != null) {
-                for (BluetoothDevice dev : paired) {
-                    btNames.add(dev.getName() + " (" + dev.getAddress() + ")");
-                    btAddresses.add(dev.getAddress());
-                }
-            }
-        }
-        ArrayAdapter<String> btAdapterList = new ArrayAdapter<>(this,
+        final ArrayAdapter<String> btAdapterList = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, btNames);
         spBluetooth.setAdapter(btAdapterList);
 
         String savedBt = settingsManager.getBluetoothAddress();
         int btIdx = btAddresses.indexOf(savedBt);
         if (btIdx >= 0) spBluetooth.setSelection(btIdx);
+
+        spConnType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == NetworkManager.ConnectionType.BLUETOOTH.ordinal()) {
+                    if (!hasBluetoothPermission()) {
+                        requestBluetoothPermission();
+                    }
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        spBluetooth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position >= 0 && position < btNames.size()) {
+                    if (btNames.get(position).startsWith("[Perlu Izin")) {
+                        requestBluetoothPermission();
+                    }
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
         // Steering Sensitivity: 45° to 180°
         // SeekBar range: 0 to 135 (progress + 45 = degrees)
@@ -528,6 +631,26 @@ public class MainActivity extends Activity {
         }
         if (steeringProcessor != null) {
             steeringProcessor.stop();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_BLUETOOTH_PERMISSIONS) {
+            boolean granted = false;
+            for (int i = 0; i < permissions.length; i++) {
+                if (Manifest.permission.BLUETOOTH_CONNECT.equals(permissions[i]) &&
+                        grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                    granted = true;
+                    break;
+                }
+            }
+            if (granted) {
+                Toast.makeText(this, "Izin Bluetooth aktif! Perangkat siap digunakan.", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Izin Bluetooth tidak diberikan. Wi-Fi dan USB tetap berfungsi normal.", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

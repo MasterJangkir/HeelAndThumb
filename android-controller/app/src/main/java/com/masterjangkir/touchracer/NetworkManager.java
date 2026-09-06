@@ -106,6 +106,10 @@ public class NetworkManager {
                             runBluetoothLoop();
                             break;
                     }
+                } catch (SecurityException se) {
+                    if (isRunning.get()) {
+                        notifyState(State.ERROR, "Izin Bluetooth belum diberikan: " + se.getMessage());
+                    }
                 } catch (Exception e) {
                     if (isRunning.get()) {
                         notifyState(State.ERROR, "Error: " + e.getMessage());
@@ -215,14 +219,23 @@ public class NetworkManager {
         }
 
         BluetoothDevice device = adapter.getRemoteDevice(bluetoothDeviceAddress);
-        adapter.cancelDiscovery(); // Cancel discovery to speed up connection
+        try {
+            adapter.cancelDiscovery(); // Cancel discovery to speed up connection
+        } catch (SecurityException ignored) {}
 
         btSocket = device.createRfcommSocketToServiceRecord(SPP_UUID);
         btSocket.connect();
         btOutputStream = btSocket.getOutputStream();
 
-        notifyState(State.CONNECTED, "Bluetooth to " + device.getName());
+        String devName = bluetoothDeviceAddress;
+        try {
+            String name = device.getName();
+            if (name != null && !name.trim().isEmpty()) {
+                devName = name;
+            }
+        } catch (SecurityException ignored) {}
 
+        notifyState(State.CONNECTED, "Bluetooth to " + devName);
         byte[] localBuf = new byte[TouchRacerPacket.PACKET_SIZE];
 
         while (isRunning.get() && !Thread.currentThread().isInterrupted()) {

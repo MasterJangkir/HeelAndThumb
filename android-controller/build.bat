@@ -5,7 +5,11 @@ echo   Touch Racer Enhanced Controller - Build Script
 echo ===================================================
 
 set "PROJECT_DIR=%~dp0"
-set "TOOLS_DIR=%PROJECT_DIR%..\tools"
+if exist "%PROJECT_DIR%..\..\tools\android-sdk" (
+    set "TOOLS_DIR=%PROJECT_DIR%..\..\tools"
+) else (
+    set "TOOLS_DIR=%PROJECT_DIR%..\tools"
+)
 set "JAVA_HOME=%TOOLS_DIR%\jdk-17"
 set "PATH=%JAVA_HOME%\bin;%PATH%"
 
