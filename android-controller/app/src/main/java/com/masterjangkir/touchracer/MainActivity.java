@@ -2,7 +2,9 @@ package com.masterjangkir.touchracer;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.bluetooth.BluetoothAdapter;
@@ -439,24 +441,34 @@ public class MainActivity extends Activity {
     }
 
     private void showSettingsDialog() {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View dialogView = inflater.inflate(R.layout.dialog_settings, null);
+        final Dialog dialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_settings);
 
-        final EditText etHost = dialogView.findViewById(R.id.etHost);
-        final EditText etPort = dialogView.findViewById(R.id.etPort);
-        final Spinner spConnType = dialogView.findViewById(R.id.spConnType);
-        final Spinner spBluetooth = dialogView.findViewById(R.id.spBluetoothDevice);
-        final SeekBar sbSensitivity = dialogView.findViewById(R.id.sbSensitivity);
-        final TextView tvSensitivityVal = dialogView.findViewById(R.id.tvSensitivityVal);
-        final SeekBar sbDeadzone = dialogView.findViewById(R.id.sbDeadzone);
-        final TextView tvDeadzoneVal = dialogView.findViewById(R.id.tvDeadzoneVal);
-        final CheckBox cbInvertPedals = dialogView.findViewById(R.id.cbInvertPedals);
-        final RadioGroup rgMixMode = dialogView.findViewById(R.id.rgMixMode);
-        final CheckBox cbVolumeShifter = dialogView.findViewById(R.id.cbVolumeShifter);
-        final CheckBox cbHaptic = dialogView.findViewById(R.id.cbHaptic);
-        final CheckBox cbReverseLandscape = dialogView.findViewById(R.id.cbReverseLandscape);
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+
+        final EditText etHost = dialog.findViewById(R.id.etHost);
+        final EditText etPort = dialog.findViewById(R.id.etPort);
+        final Spinner spConnType = dialog.findViewById(R.id.spConnType);
+        final Spinner spBluetooth = dialog.findViewById(R.id.spBluetoothDevice);
+        final SeekBar sbSensitivity = dialog.findViewById(R.id.sbSensitivity);
+        final TextView tvSensitivityVal = dialog.findViewById(R.id.tvSensitivityVal);
+        final SeekBar sbDeadzone = dialog.findViewById(R.id.sbDeadzone);
+        final TextView tvDeadzoneVal = dialog.findViewById(R.id.tvDeadzoneVal);
+        final CheckBox cbInvertPedals = dialog.findViewById(R.id.cbInvertPedals);
+        final RadioGroup rgMixMode = dialog.findViewById(R.id.rgMixMode);
+        final CheckBox cbVolumeShifter = dialog.findViewById(R.id.cbVolumeShifter);
+        final CheckBox cbHaptic = dialog.findViewById(R.id.cbHaptic);
+        final CheckBox cbReverseLandscape = dialog.findViewById(R.id.cbReverseLandscape);
+        final Button btnSaveSettings = dialog.findViewById(R.id.btnSaveSettings);
+        final Button btnCancelSettings = dialog.findViewById(R.id.btnCancelSettings);
+        final Button btnCheckUpdate = dialog.findViewById(R.id.btnCheckUpdate);
+
         cbReverseLandscape.setChecked(settingsManager.isReverseLandscape());
-
         etHost.setText(settingsManager.getHost());
         etPort.setText(String.valueOf(settingsManager.getPort()));
 
@@ -507,7 +519,6 @@ public class MainActivity extends Activity {
         });
 
         // Steering Sensitivity: 45° to 180°
-        // SeekBar range: 0 to 135 (progress + 45 = degrees)
         float currentSens = settingsManager.getSteeringSensitivity();
         sbSensitivity.setMax(135);
         sbSensitivity.setProgress(Math.round(currentSens - 45f));
@@ -549,61 +560,88 @@ public class MainActivity extends Activity {
         cbVolumeShifter.setChecked(settingsManager.isVolumeShifterEnabled());
         cbHaptic.setChecked(settingsManager.isHapticEnabled());
 
-        new AlertDialog.Builder(this)
-                .setTitle("Touch Racer Controller Settings")
-                .setView(dialogView)
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        settingsManager.setHost(etHost.getText().toString().trim());
-                        try {
-                            settingsManager.setPort(Integer.parseInt(etPort.getText().toString().trim()));
-                        } catch (Exception ignored) {}
-
-                        NetworkManager.ConnectionType selectedType =
-                                NetworkManager.ConnectionType.values()[spConnType.getSelectedItemPosition()];
-                        settingsManager.setConnectionType(selectedType);
-
-                        int btPos = spBluetooth.getSelectedItemPosition();
-                        if (btPos >= 0 && btPos < btAddresses.size()) {
-                            settingsManager.setBluetoothAddress(btAddresses.get(btPos));
-                        }
-
-                        float sens = sbSensitivity.getProgress() + 45f;
-                        settingsManager.setSteeringSensitivity(sens);
-                        if (steeringProcessor != null) {
-                            steeringProcessor.setSensitivity(sens);
-                        }
-
-                        float dz = sbDeadzone.getProgress() / 100.0f;
-                        settingsManager.setSteeringDeadzone(dz);
-                        if (steeringProcessor != null) {
-                            steeringProcessor.setDeadzone(dz);
-                        }
-
-                        settingsManager.setInvertPedals(cbInvertPedals.isChecked());
-
-                        int mix = rgMixMode.getCheckedRadioButtonId() == R.id.rbMixBrakePriority
-                                ? TouchRacerPacket.MIX_BRAKE_PRIORITY
-                                : TouchRacerPacket.MIX_ANALOG_BLEND;
-                        settingsManager.setMixMode(mix);
-                        settingsManager.setReverseLandscape(cbReverseLandscape.isChecked());
-                        applyOrientationLock();
-
-                        settingsManager.setVolumeShifterEnabled(cbVolumeShifter.isChecked());
-                        settingsManager.setHapticEnabled(cbHaptic.isChecked());
-
-                        Toast.makeText(MainActivity.this, "Settings Saved!", Toast.LENGTH_SHORT).show();
-                        hideSystemUI();
+        if (btnCheckUpdate != null) {
+            btnCheckUpdate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                                Uri.parse("https://github.com/MasterJangkir/HeelAndThumb/releases"));
+                        startActivity(browserIntent);
+                    } catch (Exception e) {
+                        Toast.makeText(MainActivity.this, "Tidak dapat membuka browser", Toast.LENGTH_SHORT).show();
                     }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        hideSystemUI();
+                }
+            });
+        }
+
+        if (btnCancelSettings != null) {
+            btnCancelSettings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    hideSystemUI();
+                }
+            });
+        }
+
+        if (btnSaveSettings != null) {
+            btnSaveSettings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    settingsManager.setHost(etHost.getText().toString().trim());
+                    try {
+                        settingsManager.setPort(Integer.parseInt(etPort.getText().toString().trim()));
+                    } catch (Exception ignored) {}
+
+                    NetworkManager.ConnectionType selectedType =
+                            NetworkManager.ConnectionType.values()[spConnType.getSelectedItemPosition()];
+                    settingsManager.setConnectionType(selectedType);
+
+                    int btPos = spBluetooth.getSelectedItemPosition();
+                    if (btPos >= 0 && btPos < btAddresses.size()) {
+                        settingsManager.setBluetoothAddress(btAddresses.get(btPos));
                     }
-                })
-                .show();
+
+                    float sens = sbSensitivity.getProgress() + 45f;
+                    settingsManager.setSteeringSensitivity(sens);
+                    if (steeringProcessor != null) {
+                        steeringProcessor.setSensitivity(sens);
+                    }
+
+                    float dz = sbDeadzone.getProgress() / 100.0f;
+                    settingsManager.setSteeringDeadzone(dz);
+                    if (steeringProcessor != null) {
+                        steeringProcessor.setDeadzone(dz);
+                    }
+
+                    settingsManager.setInvertPedals(cbInvertPedals.isChecked());
+
+                    int mix = rgMixMode.getCheckedRadioButtonId() == R.id.rbMixBrakePriority
+                            ? TouchRacerPacket.MIX_BRAKE_PRIORITY
+                            : TouchRacerPacket.MIX_ANALOG_BLEND;
+                    settingsManager.setMixMode(mix);
+                    settingsManager.setReverseLandscape(cbReverseLandscape.isChecked());
+                    applyOrientationLock();
+
+                    settingsManager.setVolumeShifterEnabled(cbVolumeShifter.isChecked());
+                    settingsManager.setHapticEnabled(cbHaptic.isChecked());
+
+                    dialog.dismiss();
+                    Toast.makeText(MainActivity.this, "Pengaturan Berhasil Disimpan!", Toast.LENGTH_SHORT).show();
+                    hideSystemUI();
+                }
+            });
+        }
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface d) {
+                hideSystemUI();
+            }
+        });
+
+        dialog.show();
     }
 
     @Override

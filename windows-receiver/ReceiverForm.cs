@@ -184,7 +184,7 @@ namespace TouchRacerReceiver
 
         private void InitializeComponent()
         {
-            this.Text = "HeelAndThumb Rx v0.1.1-beta - PC Receiver for Android Steering Wheel";
+            this.Text = "HeelAndThumb Rx v0.2.0 - PC Receiver for Android Steering Wheel";
             string icoPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "app.ico");
             if (File.Exists(icoPath))
             {
@@ -200,7 +200,7 @@ namespace TouchRacerReceiver
 
             // Title
             lblTitle = new Label();
-            lblTitle.Text = "HEEL & THUMB RX v0.1.1 Beta";
+            lblTitle.Text = "HEEL & THUMB RX v0.2.0 Pre-Release";
             lblTitle.Size = new Size(350, 25);
             lblTitle.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
             lblTitle.ForeColor = Color.FromArgb(0, 229, 255);

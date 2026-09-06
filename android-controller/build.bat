@@ -81,12 +81,16 @@ echo [6/6] Aligning and signing APK...
 "%ZIPALIGN%" -p -f 4 "%BUILD_DIR%\unsigned.apk" "%BUILD_DIR%\aligned.apk"
 if errorlevel 1 goto error
 
-if not exist "%BUILD_DIR%\debug.keystore" (
-    "%JAVA_HOME%\bin\keytool.exe" -genkeypair -v -keystore "%BUILD_DIR%\debug.keystore" -alias androiddebugkey -storepass android -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+set "KEYSTORE_DIR=%PROJECT_DIR%keystore"
+set "KEYSTORE_FILE=%KEYSTORE_DIR%\release.keystore"
+if not exist "%KEYSTORE_DIR%" mkdir "%KEYSTORE_DIR%"
+if not exist "%KEYSTORE_FILE%" (
+    echo Generating permanent signing keystore...
+    "%JAVA_HOME%\bin\keytool.exe" -genkeypair -v -keystore "%KEYSTORE_FILE%" -alias androiddebugkey -storepass android -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=HeelAndThumb,O=MasterJangkir,C=ID"
 )
 
 if exist "%PROJECT_DIR%HeelAndThumb.apk" del "%PROJECT_DIR%HeelAndThumb.apk"
-"%JAVA_HOME%\bin\java.exe" -jar "%APKSIGNER_JAR%" sign --ks "%BUILD_DIR%\debug.keystore" --ks-pass pass:android --ks-key-alias androiddebugkey --key-pass pass:android --out "%PROJECT_DIR%HeelAndThumb.apk" "%BUILD_DIR%\aligned.apk"
+"%JAVA_HOME%\bin\java.exe" -jar "%APKSIGNER_JAR%" sign --ks "%KEYSTORE_FILE%" --ks-pass pass:android --ks-key-alias androiddebugkey --key-pass pass:android --out "%PROJECT_DIR%HeelAndThumb.apk" "%BUILD_DIR%\aligned.apk"
 if errorlevel 1 goto error
 copy /y "%PROJECT_DIR%HeelAndThumb.apk" "%PROJECT_DIR%TouchRacerEnhanced.apk" >nul
 

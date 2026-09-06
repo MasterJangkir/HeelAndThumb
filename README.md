@@ -2,7 +2,7 @@
 
 > **An Android Steering Wheel & PC Receiver Ecosystem for Racing Games**
 
-[![Release](https://img.shields.io/badge/Release-Beta_0.1.1-00E5FF.svg)](https://github.com/MasterJangkir/HeelAndThumb/releases)
+[![Release](https://img.shields.io/badge/Release-Pre--Release_0.2.0-00E5FF.svg)](https://github.com/MasterJangkir/HeelAndThumb/releases)
 [![Android](https://img.shields.io/badge/Platform-Android_5.0+-00E676.svg)](https://android.com)
 [![Windows](https://img.shields.io/badge/Platform-Windows_x64-1976D2.svg)](https://microsoft.com)
 [![vJoy](https://img.shields.io/badge/Driver-vJoy_2.x-FFD700.svg)](https://github.com/shauleiz/vJoy)
@@ -85,13 +85,13 @@ Receiver Windows (`HeelAndThumbRx.exe`) membutuhkan driver **vJoy** agar Windows
 
 ### 1. Persiapan di PC:
 1. Unduh dan pasang driver [vJoy](https://github.com/shauleiz/vJoy/releases) (jika belum terpasang).
-2. Unduh dan ekstrak **`HeelAndThumbRx-v0.1.1-beta.zip`** dari folder `release/` atau dari [Halaman Rilis GitHub](https://github.com/MasterJangkir/HeelAndThumb/releases).
+2. Unduh dan ekstrak **`HeelAndThumbRx-v0.2.0-prerelease.zip`** dari folder `release/` atau dari [Halaman Rilis GitHub](https://github.com/MasterJangkir/HeelAndThumb/releases).
 3. Jalankan **`HeelAndThumbRx.exe`**.
 4. Pastikan status berwarna hijau: `vJoy: Device 1 ACQUIRED (Ready!)`.
    *(Jika tertulis BUSY karena Touch Racer lama terbuka, klik tombol **"Take vJoy Control"**)*.
 5. Catat IP yang tertera pada bagian `PC IP:` (contoh: `192.168.1.15`).
 ### 2. Persiapan di Android:
-1. Unduh dan pasang **`HeelAndThumb-v0.1.1-beta.apk`** di smartphone Anda.
+1. Unduh dan pasang **`HeelAndThumb-v0.2.0-prerelease.apk`** di smartphone Anda.
 2. Buka aplikasi **HeelAndThumb**.
 3. Buka **SETTINGS**, masukkan IP PC Anda, pilih tipe koneksi (Wi-Fi TCP / UDP), lalu tap **Save**.
 4. Tap tombol **CONNECT**.

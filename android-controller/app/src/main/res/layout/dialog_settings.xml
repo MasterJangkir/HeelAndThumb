@@ -1,221 +1,389 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:layout_height="match_parent"
+    android:background="@color/cockpit_bg"
+    android:orientation="vertical"
+    android:padding="10dp">
 
+    <!-- Header Bar -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="42dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:background="@drawable/bg_settings_card">
 
-        <!-- Connection Settings -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CONNECTION SETTINGS"
-            android:textStyle="bold"
-            android:textColor="#1976D2"
+            android:text="🏎️ COCKPIT SETTINGS"
+            android:textColor="@color/racing_cyan"
             android:textSize="14sp"
-            android:layout_marginBottom="8dp" />
+            android:letterSpacing="0.04"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Connection Type:"
-            android:textSize="12sp" />
+            android:layout_marginLeft="10dp"
+            android:text="v0.2.0 Pre-Release"
+            android:textColor="@color/racing_yellow"
+            android:textSize="10.5sp"
+            android:textStyle="bold" />
 
-        <Spinner
-            android:id="@+id/spConnType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
-        <TextView
+        <Button
+            android:id="@+id/btnCheckUpdate"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PC Server IP (Wi-Fi / USB):"
-            android:textSize="12sp" />
-
-        <EditText
-            android:id="@+id/etHost"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="e.g. 192.168.1.100 or 127.0.0.1"
-            android:inputType="textUri"
-            android:textSize="14sp"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Port (Default: 41503):"
-            android:textSize="12sp" />
-
-        <EditText
-            android:id="@+id/etPort"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="41503"
-            android:inputType="number"
-            android:textSize="14sp"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Paired Bluetooth Device:"
-            android:textSize="12sp" />
-
-        <Spinner
-            android:id="@+id/spBluetoothDevice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Steering Settings -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="STEERING SETTINGS"
-            android:textStyle="bold"
-            android:textColor="#1976D2"
-            android:textSize="14sp"
-            android:layout_marginBottom="8dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Steering Sensitivity (45° - 180°):"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tvSensitivityVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="90°"
-                android:textStyle="bold"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <SeekBar
-            android:id="@+id/sbSensitivity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Steering Deadzone (0% - 15%):"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tvDeadzoneVal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2%"
-                android:textStyle="bold"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <SeekBar
-            android:id="@+id/sbDeadzone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Pedal Settings -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PEDAL SETTINGS"
-            android:textStyle="bold"
-            android:textColor="#1976D2"
-            android:textSize="14sp"
-            android:layout_marginBottom="8dp" />
-
-        <CheckBox
-            android:id="@+id/cbInvertPedals"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Invert Pedals Axis (for inverted games)"
-            android:textSize="13sp"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Simultaneous Gas &amp; Brake Mixing Mode:"
-            android:textSize="12sp"
-            android:layout_marginBottom="4dp" />
-
-        <RadioGroup
-            android:id="@+id/rgMixMode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
-
-            <RadioButton
-                android:id="@+id/rbMixAnalogBlend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Analog Blend (Trail-Braking: Gas &amp; Brake blend smoothly)"
-                android:textSize="12sp" />
-
-            <RadioButton
-                android:id="@+id/rbMixBrakePriority"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Brake Priority (Throttle cuts proportionally when braking)"
-                android:textSize="12sp" />
-        </RadioGroup>
-
-        <!-- Shifter & Haptics -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SHIFTER &amp; FEEDBACK"
-            android:textStyle="bold"
-            android:textColor="#1976D2"
-            android:textSize="14sp"
-            android:layout_marginBottom="8dp" />
-
-        <CheckBox
-            android:id="@+id/cbVolumeShifter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hardware Volume Buttons as Shifter (Vol+ = Up, Vol- = Down)"
-            android:textSize="13sp"
-            android:layout_marginBottom="6dp" />
-
-        <CheckBox
-            android:id="@+id/cbHaptic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Haptic Vibration Feedback on Shift &amp; Buttons"
-            android:textSize="13sp"
-            android:layout_marginBottom="8dp" />
-
-        <CheckBox
-            android:id="@+id/cbReverseLandscape"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Invert Landscape Orientation (Rotate 180°)"
-            android:textSize="13sp"
-            android:layout_marginBottom="8dp" />
-
+            android:layout_height="30dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="🌐 Cek Update GitHub"
+            android:textSize="9.5sp"
+            android:textColor="@color/racing_cyan"
+            android:background="@drawable/bg_btn_racing" />
     </LinearLayout>
-</ScrollView>
+
+    <!-- Main Content 2-Column Grid -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <!-- Left Card: Connection & Network -->
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/bg_settings_card"
+            android:padding="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🌐 KONEKSI &amp; JARINGAN"
+                    android:textColor="@color/racing_cyan"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Tipe Protokol Koneksi:"
+                    android:textColor="@color/text_white"
+                    android:textSize="11sp" />
+
+                <Spinner
+                    android:id="@+id/spConnType"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_input_field" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2.2"
+                        android:orientation="vertical"
+                        android:layout_marginRight="6dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PC Host IP:"
+                            android:textColor="@color/text_white"
+                            android:textSize="11sp" />
+
+                        <EditText
+                            android:id="@+id/etHost"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dp"
+                            android:layout_marginTop="4dp"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:hint="192.168.1.100"
+                            android:textColorHint="@color/text_dim"
+                            android:singleLine="true"
+                            android:textColor="@color/text_white"
+                            android:textSize="11sp"
+                            android:background="@drawable/bg_input_field" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.2"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Port:"
+                            android:textColor="@color/text_white"
+                            android:textSize="11sp" />
+
+                        <EditText
+                            android:id="@+id/etPort"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dp"
+                            android:layout_marginTop="4dp"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:hint="41503"
+                            android:textColorHint="@color/text_dim"
+                            android:singleLine="true"
+                            android:inputType="number"
+                            android:textColor="@color/text_white"
+                            android:textSize="11sp"
+                            android:background="@drawable/bg_input_field" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Perangkat Bluetooth Ter-pair:"
+                    android:textColor="@color/text_white"
+                    android:textSize="11sp" />
+
+                <Spinner
+                    android:id="@+id/spBluetoothDevice"
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_input_field" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:padding="8dp"
+                    android:background="#15202B"
+                    android:text="⚡ Rekomendasi: Gunakan Wi-Fi UDP untuk latensi 0ms (~75 Hz). Mode USB dapat menggunakan USB Tethering atau ADB Reverse."
+                    android:textColor="@color/text_dim"
+                    android:textSize="9.5sp" />
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- Right Card: Steering, Pedals & Hardware Controls -->
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/bg_settings_card"
+            android:padding="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🎛️ KEMUDI &amp; PEDAL"
+                    android:textColor="@color/racing_yellow"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <!-- Sensitivity Slider -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="6dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Sensitivitas Belok (45° - 180°):"
+                        android:textColor="@color/text_white"
+                        android:textSize="10.5sp" />
+
+                    <TextView
+                        android:id="@+id/tvSensitivityVal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="90°"
+                        android:textColor="@color/racing_cyan"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/sbSensitivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" />
+
+                <!-- Deadzone Slider -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Deadzone Titik Tengah (0% - 15%):"
+                        android:textColor="@color/text_white"
+                        android:textSize="10.5sp" />
+
+                    <TextView
+                        android:id="@+id/tvDeadzoneVal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2%"
+                        android:textColor="@color/racing_cyan"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <SeekBar
+                    android:id="@+id/sbDeadzone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp" />
+
+                <!-- Pedal Options -->
+                <CheckBox
+                    android:id="@+id/cbInvertPedals"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Tukar Posisi Pedal (Kiri Gas, Kanan Rem)"
+                    android:textColor="@color/text_white"
+                    android:textSize="10.5sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Mode Tekanan Pedal Gas &amp; Rem Simultan:"
+                    android:textColor="@color/text_dim"
+                    android:textSize="10sp" />
+
+                <RadioGroup
+                    android:id="@+id/rgMixMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="2dp">
+
+                    <RadioButton
+                        android:id="@+id/rbMixBrakePriority"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Prioritas Rem"
+                        android:textColor="@color/text_white"
+                        android:textSize="10sp" />
+
+                    <RadioButton
+                        android:id="@+id/rbMixAnalogBlend"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Campuran Analog"
+                        android:textColor="@color/text_white"
+                        android:textSize="10sp" />
+                </RadioGroup>
+
+                <!-- Hardware & Layout Options -->
+                <CheckBox
+                    android:id="@+id/cbVolumeShifter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Paddle Shifter via Tombol Volume HP (Vol- = LB, Vol+ = RB)"
+                    android:textColor="@color/text_white"
+                    android:textSize="10.5sp" />
+
+                <CheckBox
+                    android:id="@+id/cbHaptic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Getar Haptic Feedback saat Oper Gigi &amp; Kalibrasi"
+                    android:textColor="@color/text_white"
+                    android:textSize="10.5sp" />
+
+                <CheckBox
+                    android:id="@+id/cbReverseLandscape"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Putar Layar 180° (Reverse Landscape / Port Charger di Kiri)"
+                    android:textColor="@color/text_white"
+                    android:textSize="10.5sp" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- Bottom Action Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Semua pengaturan tersimpan otomatis di memori internal."
+            android:textColor="@color/text_dim"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/btnCancelSettings"
+            android:layout_width="110dp"
+            android:layout_height="36dp"
+            android:text="BATAL"
+            android:textSize="11sp"
+            android:textColor="@color/text_white"
+            android:background="@drawable/bg_btn_racing" />
+
+        <Button
+            android:id="@+id/btnSaveSettings"
+            android:layout_width="170dp"
+            android:layout_height="36dp"
+            android:layout_marginLeft="8dp"
+            android:text="SIMPAN PENGATURAN"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="@color/btn_connect_green"
+            android:background="@drawable/bg_btn_connect" />
+    </LinearLayout>
+
+</LinearLayout>
